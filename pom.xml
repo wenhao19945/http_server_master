@@ -6,10 +6,12 @@
 
   <groupId>com.example</groupId>
   <artifactId>http_server_master</artifactId>
+  <packaging>pom</packaging>
   <version>1.0</version>
 
   <modules>
     <module>http_server</module>
+    <module>demo</module>
   </modules>
 
 </project>
