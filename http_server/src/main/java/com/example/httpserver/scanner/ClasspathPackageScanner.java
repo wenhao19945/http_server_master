@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * 对于前者，只需定位到class文件所在目录，然后将class文件名读取出即可；
  * 对于后者，则需先定位到jar包所在目录，然后使用JarInputStream读取Jar包，得到class类名。
  */
-public class ClasspathPackageScanner implements PackageScanner{
+public class ClasspathPackageScanner {
 
   private static final Logger logger = LoggerFactory.getLogger(ClasspathPackageScanner.class);
 
@@ -37,7 +37,6 @@ public class ClasspathPackageScanner implements PackageScanner{
     this.cl = getClass().getClassLoader();
   }
 
-  @Override
   public List<String> getFullyQualifiedClassNameList() throws IOException {
     return doScan(basePackage, new ArrayList<>());
   }

@@ -1,4 +1,4 @@
-package com.example.httpserver.pojo;
+package com.example.demo.pojo;
 
 /**
  * @author WenHao

@@ -82,11 +82,13 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
         }else{
           // get resources TODO: other static files
           String favicon = "favicon.ico";
-          FileUtil fileUtil = new FileUtil();
-          byte[] ico = fileUtil.loadIco(favicon);
-          ByteBuf buf =  Unpooled.buffer(ico.length);
-          buf.writeBytes(ico);
-          response = ResponseUtil.responseIco(buf);
+          if(favicon.equals(url[0])){
+            FileUtil fileUtil = new FileUtil();
+            byte[] ico = fileUtil.loadIco(favicon);
+            ByteBuf buf =  Unpooled.buffer(ico.length);
+            buf.writeBytes(ico);
+            response = ResponseUtil.responseIco(buf);
+          }
         }
       }
       // not found

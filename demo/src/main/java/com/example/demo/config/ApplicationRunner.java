@@ -1,4 +1,4 @@
-package com.example.httpserver.component;
+package com.example.demo.config;
 
 import com.example.httpserver.ApplicationData;
 import com.example.httpserver.annotation.Component;
@@ -17,7 +17,8 @@ import org.slf4j.LoggerFactory;
 @Component
 public class ApplicationRunner {
 
-  private static final Logger logger = LoggerFactory.getLogger(ApplicationRunner.class);
+  private static final Logger logger = LoggerFactory.getLogger(
+      ApplicationRunner.class);
 
   @Runner(index = 2)
   public void run2() {

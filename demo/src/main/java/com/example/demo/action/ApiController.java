@@ -1,11 +1,11 @@
-package com.example.httpserver.controller;
+package com.example.demo.action;
 
 import com.alibaba.fastjson2.JSON;
+import com.example.demo.pojo.User;
 import com.example.httpserver.ApplicationData;
 import com.example.httpserver.annotation.Action;
 import com.example.httpserver.annotation.RequestApi;
 import com.example.httpserver.bean.RequestMethod;
-import com.example.httpserver.pojo.User;
 import com.example.httpserver.util.ParameterUtil;
 import com.example.httpserver.util.ResponseUtil;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -26,7 +26,8 @@ import org.slf4j.LoggerFactory;
 @Action("/index")
 public class ApiController {
 
-  private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
+  private static final Logger logger = LoggerFactory.getLogger(
+      ApiController.class);
 
   @RequestApi(value = "/find", method = RequestMethod.GET)
   public FullHttpResponse find(FullHttpRequest request, FullHttpResponse response){
@@ -39,6 +40,7 @@ public class ApiController {
     int start = (page-1) * 10;
     Map<String, Object> map = new HashMap<>(16);
     String sql = "select id, name, phone, create_time createTime from user limit " + start + ",10";
+    System.out.println(JSON.toJSONString(ApplicationData.DATA_BASE));
     List<User> list = ApplicationData.DATA_BASE.query(sql, User.class);
     map.put("code","200");
     map.put("msg","success");
