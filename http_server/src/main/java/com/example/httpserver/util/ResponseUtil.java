@@ -16,7 +16,6 @@ import io.netty.util.CharsetUtil;
  * @author WenHao
  * @ClassName ResponseUtil
  * @date 2022/7/22 17:24
- * @Description
  */
 public class ResponseUtil {
 
@@ -73,13 +72,9 @@ public class ResponseUtil {
 
   /**
    * 302
-   * @param uri
-   * @author WenHao
-   * @date 2022/7/22 17:25
-   * @return io.netty.handler.codec.http.FullHttpResponse
    */
   public static FullHttpResponse response302(String uri) {
-    //设置重定向响应码 （临时重定向、永久重定向）
+    // set redirect response code
     FullHttpResponse response = new DefaultFullHttpResponse(
         HttpVersion.HTTP_1_1, HttpResponseStatus.PERMANENT_REDIRECT);
     HttpHeaders headers = response.headers();
@@ -87,7 +82,7 @@ public class ResponseUtil {
     headers.set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_METHODS, "POST,GET");
     headers.set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
     headers.set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
-    //重定向uri设置
+    // redirect uri settings
     headers.set(HttpHeaderNames.LOCATION, uri);
     return response;
   }

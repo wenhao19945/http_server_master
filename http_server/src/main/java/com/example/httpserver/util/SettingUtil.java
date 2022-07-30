@@ -15,6 +15,9 @@ import java.io.InputStreamReader;
  */
 public class SettingUtil {
 
+  /**
+   * load settings.json file
+   */
   public void load() throws Exception{
     //路径
     BufferedReader reader = null;
@@ -43,7 +46,7 @@ public class SettingUtil {
       //json
       JSONObject jsonData = JSONObject.parseObject(str.toString());
       for(String key : jsonData.keySet()){
-        ApplicationData.SETTINGS.put(key, jsonData.get(key));
+        ApplicationData.SETTINGS.put(key, jsonData.get(key).toString());
       }
     }catch (Exception e){
       e.printStackTrace();

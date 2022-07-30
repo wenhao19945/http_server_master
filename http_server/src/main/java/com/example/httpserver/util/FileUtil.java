@@ -11,7 +11,7 @@ import java.io.InputStream;
 public class FileUtil {
 
   /**
-   * 小文件读取
+   * small file reading
    *
    * @param fileName
    * @author WenHao

@@ -17,15 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * ParameterUtil.
  * @author WenHao
- * @ClassName ParameterUtil
  * @date 2022/7/22 17:06
- * @Description
  */
 public class ParameterUtil {
 
   /**
-   * 获取参数
+   * get params
    */
   public static Map<String, Object> getParam(FullHttpRequest request) {
     if(request.method().equals(HttpMethod.GET)){
@@ -36,7 +35,7 @@ public class ParameterUtil {
   }
 
   /**
-   * 获取参数
+   * get params for string
    */
   public static String getParamString(FullHttpRequest fullHttpRequest) {
     ByteBuf content = fullHttpRequest.content();
@@ -52,12 +51,7 @@ public class ParameterUtil {
   }
 
   /**
-   * 获取GET方式传递的参数.
-   *
-   * @param fullHttpRequest
-   * @author WenHao
-   * @date 2022/7/22 17:09
-   * @return java.util.Map<java.lang.String, java.lang.Object>
+   * get the parameters passed by GET method.
    */
   public static Map<String, Object> getGetParamsFromChannel(FullHttpRequest fullHttpRequest) {
     Map<String, Object> params = new HashMap<>(16);
@@ -70,7 +64,7 @@ public class ParameterUtil {
   }
 
   /**
-   * 获取POST方式传递的参数
+   * get the parameters passed by POST method.
    */
   public static Map<String, Object> getPostParamsFromChannel(FullHttpRequest fullHttpRequest) {
     Map<String, Object> params = null;
@@ -95,7 +89,7 @@ public class ParameterUtil {
   }
 
   /**
-   * 解析from表单数据（Content-Type = application/x-www-form-urlencoded）
+   * parse form data (Content-Type = application/x-www-form-urlencoded)
    */
   public static Map<String, Object> getFormParams(FullHttpRequest fullHttpRequest) {
     Map<String, Object> params = new HashMap<>(16);
@@ -111,7 +105,7 @@ public class ParameterUtil {
   }
 
   /**
-   * 解析json数据（Content-Type = application/json）
+   * parse json data (Content-Type = application/json)
    */
   public static Map<String, Object> getJsonParams(FullHttpRequest fullHttpRequest) throws UnsupportedEncodingException {
     Map<String, Object> params = new HashMap<>(16);

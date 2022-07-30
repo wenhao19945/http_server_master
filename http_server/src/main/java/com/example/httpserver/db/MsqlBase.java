@@ -1,6 +1,8 @@
 package com.example.httpserver.db;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.example.httpserver.ApplicationData;
+import com.example.httpserver.bean.SettingsEnum;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -52,6 +54,23 @@ public class MsqlBase {
     }catch (Exception e){
       e.printStackTrace();
       return false;
+    }
+  }
+
+  public static void load(){
+    if(
+        ApplicationData.SETTINGS.containsKey(SettingsEnum.mysql_url.toString())
+     && ApplicationData.SETTINGS.containsKey(SettingsEnum.mysql_user.toString())
+     && ApplicationData.SETTINGS.containsKey(SettingsEnum.mysql_pass.toString())
+    ){
+      MsqlBase db = new MsqlBase(
+          ApplicationData.SETTINGS.get(SettingsEnum.mysql_url.toString()),
+          ApplicationData.SETTINGS.get(SettingsEnum.mysql_user.toString()),
+          ApplicationData.SETTINGS.get(SettingsEnum.mysql_pass.toString()));
+      if(db.init()){
+        logger.info("load db: {}", db.url);
+        ApplicationData.DATA_BASE = db;
+      }
     }
   }
 

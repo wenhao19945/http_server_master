@@ -34,6 +34,7 @@ public class AnnotationScanner {
           Map<String, String> map = new HashMap<>(16);
           map.put(action.value(), className);
           ApplicationData.ACTION.add(map);
+          logger.info("Register Action : " + className);
         }
         Component component = clazz.getDeclaredAnnotation(Component.class);
         if(null != component){

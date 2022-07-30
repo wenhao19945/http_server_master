@@ -1,6 +1,7 @@
 package com.example.httpserver;
 
 import com.example.httpserver.component.JobStarter;
+import com.example.httpserver.db.MsqlBase;
 import com.example.httpserver.util.SettingUtil;
 import com.example.httpserver.scanner.AnnotationScanner;
 import com.example.httpserver.scanner.ClasspathPackageScanner;
@@ -10,10 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * start this run for application
  * @author WenHao
  * @ClassName Application
  * @date 2022/7/15 18:07
- * @Description
  */
 public class Application {
 
@@ -58,6 +59,9 @@ public class Application {
     //load setting
     new SettingUtil().load();
 
+    //load mysql
+    MsqlBase.load();
+
     //start web
     httpServerStart();
 
@@ -71,11 +75,14 @@ public class Application {
 
   }
 
+  /**
+   * def netty http server port 8080
+   */
   private void httpServerStart() {
     String keyName = "port";
     int port = 8080;
     if (ApplicationData.SETTINGS.containsKey(keyName)) {
-      port = Integer.parseInt(ApplicationData.SETTINGS.get(keyName).toString());
+      port = Integer.parseInt(ApplicationData.SETTINGS.get(keyName));
     }
     new NettyHttpServer(port).start();
   }

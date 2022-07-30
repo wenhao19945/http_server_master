@@ -1,10 +1,7 @@
 package com.example.demo.config;
 
-import com.example.httpserver.ApplicationData;
 import com.example.httpserver.annotation.Component;
 import com.example.httpserver.annotation.Runner;
-import com.example.httpserver.bean.SettingsEnum;
-import com.example.httpserver.db.MsqlBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,13 +24,7 @@ public class ApplicationRunner {
 
   @Runner
   public void run1() {
-    MsqlBase db = new MsqlBase(
-        ApplicationData.SETTINGS.get(SettingsEnum.mysql_url.toString()).toString(),
-        ApplicationData.SETTINGS.get(SettingsEnum.mysql_user.toString()).toString(),
-        ApplicationData.SETTINGS.get(SettingsEnum.mysql_pass.toString()).toString());
-    if(db.init()){
-      ApplicationData.DATA_BASE = db;
-    }
+    logger.info("run1");
   }
 
   @Runner(index = 3)
