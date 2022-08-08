@@ -14,6 +14,13 @@ public class StringUtil {
 
   }
 
+  /**
+   * /ddd.jpg  ->  .jpg
+   */
+  public static String getFileExtension(String fileName){
+    return fileName.substring(fileName.lastIndexOf("."));
+  }
+
   public static String[] getRequestPath(String uri){
     String[] str = uri.split("\\?");
     return str[0].replaceFirst("/","").split("/", 2);

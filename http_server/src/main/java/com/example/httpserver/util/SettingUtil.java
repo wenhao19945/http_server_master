@@ -18,33 +18,12 @@ public class SettingUtil {
   /**
    * load settings.json file
    */
-  public void load() throws Exception{
-    //路径
-    BufferedReader reader = null;
-    StringBuffer str = new StringBuffer();
-    try {
-      InputStream fileInputStream = this.getClass().getClassLoader().getResourceAsStream("settings.json");
-      InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-      reader = new BufferedReader(inputStreamReader);
-      String tempString = null;
-      while ((tempString = reader.readLine()) != null) {
-        str.append(tempString);
-      }
-      reader.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      if (reader != null) {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-    }
+  public void load() {
     try{
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("settings.json");
+      String str = FileUtil.getString(inputStream, "UTF-8");
       //json
-      JSONObject jsonData = JSONObject.parseObject(str.toString());
+      JSONObject jsonData = JSONObject.parseObject(str);
       for(String key : jsonData.keySet()){
         ApplicationData.SETTINGS.put(key, jsonData.get(key).toString());
       }

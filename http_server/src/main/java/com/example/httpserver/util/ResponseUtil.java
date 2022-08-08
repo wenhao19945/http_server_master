@@ -71,6 +71,20 @@ public class ResponseUtil {
   }
 
   /**
+   * all file
+   */
+  public static FullHttpResponse responseByFileName(ByteBuf content, String fileName){
+    FileUtil fileUtil = new FileUtil();
+    String contentType = fileUtil.getContentType(StringUtil.getFileExtension(fileName));
+    FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
+    if (content != null) {
+      response.headers().set(HttpHeaderNames.CONTENT_TYPE, contentType);
+      response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
+    }
+    return response;
+  }
+
+  /**
    * 302
    */
   public static FullHttpResponse response302(String uri) {

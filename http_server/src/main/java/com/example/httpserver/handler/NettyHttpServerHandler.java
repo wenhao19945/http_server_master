@@ -20,6 +20,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.util.CharsetUtil;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +89,15 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
             ByteBuf buf =  Unpooled.buffer(ico.length);
             buf.writeBytes(ico);
             response = ResponseUtil.responseIco(buf);
+          }
+          InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(url[0]);
+          if(null != inputStream){
+            byte[] res = new byte[inputStream.available()];
+            inputStream.read(res, 0, res.length);
+            inputStream.close();
+            ByteBuf buf =  Unpooled.buffer(res.length);
+            buf.writeBytes(res);
+            response = ResponseUtil.responseByFileName(buf, url[0]);
           }
         }
       }
