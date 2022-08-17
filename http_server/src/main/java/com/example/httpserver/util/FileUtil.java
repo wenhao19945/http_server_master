@@ -2,6 +2,8 @@ package com.example.httpserver.util;
 
 import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,6 +30,22 @@ public class FileUtil {
     inputStream.read(ico, 0, ico.length);
     inputStream.close();
     return ico;
+  }
+
+  /**
+   * FileUtil.loadFile.
+   *
+   * @param file
+   * @author WenHao
+   * @date 2022/8/9 17:09
+   * @return byte[]
+   */
+  public static byte[] loadFile(File file) throws IOException{
+    FileInputStream inputStream = new FileInputStream(file);
+    byte[] fileBytes = new byte[inputStream.available()];
+    inputStream.read(fileBytes, 0, fileBytes.length);
+    inputStream.close();
+    return fileBytes;
   }
 
   /**

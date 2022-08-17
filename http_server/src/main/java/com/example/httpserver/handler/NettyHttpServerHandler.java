@@ -16,11 +16,16 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaderNames;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
+import io.netty.handler.codec.http.multipart.HttpDataFactory;
+import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.util.CharsetUtil;
-import java.io.InputStream;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -76,29 +81,48 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
                   request.method().name(),
                   key + value,
                   JSON.toJSONString(ParameterUtil.getParam(request)));
+              if(request.method() == HttpMethod.POST){
+                HttpDataFactory factory = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
+                HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(factory, request);
+                logger.info("isMultipart:" + decoder.isMultipart());
+                if(decoder.isMultipart()){
+
+                }else{
+
+                }
+              }
               response = (DefaultFullHttpResponse)method.invoke(clazz.newInstance(), request, response);
               logger.info(">>>>> response: {} ", new String(ByteBufUtil.getBytes(response.content()), CharsetUtil.UTF_8));
             }
           }
         }else{
-          // get resources TODO: other static files
+
+          // get favicon.ico
           String favicon = "favicon.ico";
           if(favicon.equals(url[0])){
+
             FileUtil fileUtil = new FileUtil();
             byte[] ico = fileUtil.loadIco(favicon);
             ByteBuf buf =  Unpooled.buffer(ico.length);
             buf.writeBytes(ico);
             response = ResponseUtil.responseIco(buf);
+
           }
-          InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(url[0]);
-          if(null != inputStream){
-            byte[] res = new byte[inputStream.available()];
-            inputStream.read(res, 0, res.length);
-            inputStream.close();
-            ByteBuf buf =  Unpooled.buffer(res.length);
-            buf.writeBytes(res);
-            response = ResponseUtil.responseByFileName(buf, url[0]);
+
+          // other static files
+          String files = "files";
+          if(files.equals(url[0])){
+            String fileHome = ApplicationData.SETTINGS.get("file_path");
+            File file = new File(fileHome + "/" + url[1]);
+            if(file.exists()){
+              byte[] res = FileUtil.loadFile(file);
+              ByteBuf buf =  Unpooled.buffer(res.length);
+              buf.writeBytes(res);
+              logger.info("get static files: " + file.getPath());
+              response = ResponseUtil.responseByFileName(buf, file.getName());
+            }
           }
+
         }
       }
       // not found
